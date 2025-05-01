@@ -23,15 +23,15 @@ public class Orders {
     private Long quantity;
     // relations
     @ManyToOne
-    @JoinColumn(name = "customer_id" , referencedColumnName = "userId")
+    @JoinColumn(name = "customer_id", referencedColumnName = "userId")
     private AppUser user;
     @OneToMany(mappedBy = "orderItemId")
-    private List<OderItems> orderItems;
+    private List<OrderItems> orderItems;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "address_id", referencedColumnName ="addressId")
+    @JoinColumn(name = "address_id", referencedColumnName = "addressId")
     private Address shippingAddress;
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus=OrderStatus.PENDING;
+    private OrderStatus orderStatus = OrderStatus.PENDING;
 }

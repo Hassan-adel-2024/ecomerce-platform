@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class Cart {
     private Long cartId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private BigDecimal totalPrice;
     // relations
     @OneToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "userId")
