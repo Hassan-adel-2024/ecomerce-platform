@@ -1,6 +1,7 @@
 package com.ecommerce.service;
 
-import com.ecommerce.dto.AppUserDto;
+import com.ecommerce.dto.AppUserDtoRequest;
+import com.ecommerce.dto.AppUserDtoResponse;
 import com.ecommerce.entity.AppUser;
 import com.ecommerce.entity.Role;
 import com.ecommerce.exceptions.EmailAlreadyExists;
@@ -18,17 +19,19 @@ public class AppUserService {
     private final AppUserRepo appUserRepo;
     private final RoleRepo roleRepo;
     private final AppUserMapper appUserMapper;
-    public AppUser crateUser(AppUserDto appUserDto)  {
-        validateEmailDoesNotExist(appUserDto.getEmail());
-        AppUser appUser = appUserMapper.dtoToEntity(appUserDto);
-        Long roleId = appUserDto.getRoleId();
+    public AppUserDtoResponse crateUser(AppUserDtoRequest appUserDtoRequest)  {
+        validateEmailDoesNotExist(appUserDtoRequest.getEmail());
+        AppUser appUser = appUserMapper.dtoToEntity(appUserDtoRequest);
+        Long roleId = appUserDtoRequest.getRoleId();
         Role role = roleRepo.findById(roleId).
                 orElseThrow(() ->  new RuntimeException("role not found") );
         appUser.setRole(role);
         appUser.setCreatedAt(LocalDateTime.now());
         appUser.setUpdatedAt(LocalDateTime.now());
-        appUserRepo.save(appUser);
-        return appUserRepo.save(appUser);
+
+        AppUser savedUser = appUserRepo.save(appUser);
+        AppUserDtoResponse appUserDtoResponse = appUserMapper.entityToResponse(savedUser);
+        return appUserDtoResponse;
     }
 
 

@@ -12,16 +12,18 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/address")
 public class AddressController {
     private final AddressService addressService;
-    @PostMapping("addAdress/{id}")
+    @PostMapping("/add/{id}")
     public ResponseEntity<?> addAddress(@PathVariable("id") Long userId, @RequestBody AddressDto addressDto) {
-        Address address = addressService.addAddress(userId, addressDto);
+        Address address = addressService.addAddress(addressDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(address);
     }
-    @GetMapping("addresses/{id}")
+    @GetMapping("/user/{id}")
     public ResponseEntity<?> getAddress(@PathVariable("id") Long userId) {
         List<Address> addressList = addressService.getAllAddressesByUserId(userId);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(addressList);
     }
+
 }

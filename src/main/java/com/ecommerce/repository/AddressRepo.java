@@ -9,4 +9,6 @@ public interface AddressRepo  extends JpaRepository<Address, Long> {
     Address findByUserUserId(Long userId);
     Long countByUserUserId(Long userId);
     List<Address> findAllByUserUserId(Long userId);
+
+
 }

@@ -28,7 +28,7 @@ public class Product {
     private LocalDateTime updatedAt;
     // relation
     @ManyToOne
-    @JoinColumn(name = "category_id",referencedColumnName = "id")
+    @JoinColumn(name = "category_id",referencedColumnName = "categoryId")
     private Category category;
     @OneToMany(mappedBy = "cartItemId" , fetch = FetchType.LAZY)
     private List<CartItem> comments;

@@ -25,6 +25,11 @@ public class Role {
         this.roleName = roleName;
         this.roleDesc = roleDesc;
     }
+    public Role(Long roleId,String roleName, String roleDesc) {
+        this.roleName = roleName;
+        this.roleDesc = roleDesc;
+        this.roleId = roleId;
+    }
     @Override
     public String toString() {
         return "Role [roleId=" + roleId + ", roleName=" + roleName + ", roleDesc=";
