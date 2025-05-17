@@ -51,6 +51,7 @@ public class AddressService {
     private void validateAddressLimit(Long userId) {
         Long countAddresses = addressRepo.countByUserUserId(userId);
         if (countAddresses >= MAX_ADDRESSES_PER_USER) {
+            System.out.println("______________________address limit exceded");
             throw new AddressLimitExceededException("Address limit exceeded");
         }
     }

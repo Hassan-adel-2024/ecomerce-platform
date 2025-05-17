@@ -14,6 +14,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Table(
+        name = "app_user",
+        indexes = {
+                @Index(name = "idx_email", columnList = "email")
+        }
+)
 public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
