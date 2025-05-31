@@ -11,8 +11,6 @@ import com.ecommerce.repository.RoleRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-
 @Service
 @RequiredArgsConstructor
 public class AppUserService {
@@ -26,8 +24,7 @@ public class AppUserService {
         Role role = roleRepo.findById(roleId).
                 orElseThrow(() ->  new RuntimeException("role not found") );
         appUser.setRole(role);
-        appUser.setCreatedAt(LocalDateTime.now());
-        appUser.setUpdatedAt(LocalDateTime.now());
+
 
         AppUser savedUser = appUserRepo.save(appUser);
         AppUserDtoResponse appUserDtoResponse = appUserMapper.entityToResponse(savedUser);
@@ -39,6 +36,10 @@ public class AppUserService {
         if(appUserRepo.existsByEmail(email)) {
             throw new EmailAlreadyExists(email);
         }
+    }
+    public AppUser getUserById(Long userId) {
+        return appUserRepo.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
     }
 
 }

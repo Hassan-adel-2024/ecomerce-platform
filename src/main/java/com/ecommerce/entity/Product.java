@@ -17,20 +17,33 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
-    private String name;
+    private String productName;
     private String description;
     private String brand;
     private BigDecimal price;
     private String sku;
-    private Long quantity;
+    private Long stock;
     private String imageUrl;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    @Column(nullable = false)
+    private boolean deleted = false;
     // relation
     @ManyToOne
     @JoinColumn(name = "category_id",referencedColumnName = "categoryId")
     private Category category;
-    @OneToMany(mappedBy = "cartItemId" , fetch = FetchType.LAZY)
-    private List<CartItem> comments;
+    @OneToMany(mappedBy = "product" , fetch = FetchType.LAZY)
+    private List<CartItem> cartItems;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 
 }

@@ -20,10 +20,22 @@ public class Cart {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private BigDecimal totalPrice;
+    private boolean active;
     // relations
-    @OneToOne
+    @ManyToOne()
     @JoinColumn(name = "customer_id", referencedColumnName = "userId")
     private AppUser user;
-    @OneToMany(cascade = CascadeType.ALL , orphanRemoval = true , mappedBy = "cartItemId")
+    @OneToMany(cascade = CascadeType.ALL , orphanRemoval = true , mappedBy = "cart",fetch = FetchType.EAGER)
     private List<CartItem> cartItems;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }

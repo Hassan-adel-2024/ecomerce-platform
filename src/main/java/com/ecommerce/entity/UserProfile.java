@@ -23,4 +23,16 @@ public class UserProfile {
     @MapsId
     @JoinColumn(name = "user_profile_id")
     private AppUser user;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
+
 }

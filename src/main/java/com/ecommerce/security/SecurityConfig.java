@@ -29,7 +29,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final CustomUserDetailsService userDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private static final String [] publicApis = {"/register","/login"};
+    private static final String [] publicApis = {"/register","/login","/error/**","/exception/**"};
     private static final String [] authApis = {"/address/**"};
 
     @Bean

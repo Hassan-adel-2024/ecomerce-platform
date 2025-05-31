@@ -19,7 +19,9 @@ public class CartItem {
     private BigDecimal unitPrice;
     private Long quantity = 1L;
     private BigDecimal totalPrice;
-    private LocalDateTime addedOn;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
     // relations
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id", referencedColumnName = "cartId")
@@ -29,6 +31,15 @@ public class CartItem {
     @JoinColumn(name = "product_id",referencedColumnName = "productId")
     private Product product;
 
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
 
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 
 }

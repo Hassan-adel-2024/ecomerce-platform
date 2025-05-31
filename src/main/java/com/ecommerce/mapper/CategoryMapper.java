@@ -4,6 +4,7 @@ import com.ecommerce.dto.CategoryDto;
 import com.ecommerce.entity.Category;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(
@@ -15,4 +16,10 @@ public interface CategoryMapper {
     @Mapping(target = "categoryName" , source = "categoryName")
     @Mapping(target = "description" , source = "description")
     Category dtoToEntity(CategoryDto dto);
+    @Mapping(target = "categoryId" , ignore = true)
+    @Mapping(target = "categoryName" , source = "categoryName")
+    @Mapping(target = "description" , source = "description")
+    Category updateEntityFromDto(CategoryDto dto,@MappingTarget Category entity);
+
+    CategoryDto entityToDto(Category entity);
 }

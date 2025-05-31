@@ -3,7 +3,6 @@ package com.ecommerce.controller;
 import com.ecommerce.dto.AppUserDtoRequest;
 import com.ecommerce.dto.AppUserDtoResponse;
 import com.ecommerce.dto.UserProfileDto;
-import com.ecommerce.entity.AppUser;
 import com.ecommerce.exceptions.EmailAlreadyExists;
 import com.ecommerce.service.AppUserService;
 import com.ecommerce.service.UserProfileService;
@@ -12,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,9 +26,15 @@ public class AppUserController {
         AppUserDtoResponse appUser = appUserService.crateUser(appUserDtoRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(appUser);
     }
-   @PostMapping("/profile")
+   @PostMapping("/profile/add")
     public ResponseEntity<UserProfileDto> setProfile(@RequestBody UserProfileDto userProfileDto) {
         userProfileService.addProfile(userProfileDto);
         return ResponseEntity.status(HttpStatus.OK).body(userProfileDto);
    }
+    @PutMapping("/profile/update")
+    public ResponseEntity<UserProfileDto> updateProfile(@RequestBody UserProfileDto userProfileDto) {
+        UserProfileDto updatedUser = userProfileService.updateProfile(userProfileDto);
+
+        return ResponseEntity.status(HttpStatus.OK).body(updatedUser);
+    }
 }

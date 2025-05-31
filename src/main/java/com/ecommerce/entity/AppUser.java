@@ -38,14 +38,25 @@ public class AppUser {
     @ManyToOne()
     @JoinColumn(name = "role_id",referencedColumnName = "roleId")
     private Role role;
-    @OneToOne(cascade = CascadeType.ALL , mappedBy = "user")
+    @OneToOne(cascade = CascadeType.ALL , mappedBy = "user" )
     private UserProfile profile;
-    @OneToMany(mappedBy = "user"  )
+    @OneToMany(mappedBy = "user" , fetch = FetchType.LAZY)
     private List<Address> addressList;
     @Override
     public String toString() {
         return "AppUser [userId=" + userId + ", email=" +
                 email + ", password=" + password + ", role=" + role;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
     }
 
 }
