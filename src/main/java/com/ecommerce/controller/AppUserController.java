@@ -23,7 +23,7 @@ public class AppUserController {
 
     @PostMapping("/register")
     public ResponseEntity<AppUserDtoResponse> createUser(@Valid @RequestBody AppUserDtoRequest appUserDtoRequest) throws EmailAlreadyExists {
-        AppUserDtoResponse appUser = appUserService.crateUser(appUserDtoRequest);
+        AppUserDtoResponse appUser = appUserService.createUser(appUserDtoRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(appUser);
     }
    @PostMapping("/profile/add")

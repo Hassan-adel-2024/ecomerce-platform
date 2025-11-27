@@ -9,6 +9,7 @@ import com.ecommerce.mapper.AppUserMapper;
 import com.ecommerce.repository.AppUserRepo;
 import com.ecommerce.repository.RoleRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,14 +18,15 @@ public class AppUserService {
     private final AppUserRepo appUserRepo;
     private final RoleRepo roleRepo;
     private final AppUserMapper appUserMapper;
-    public AppUserDtoResponse crateUser(AppUserDtoRequest appUserDtoRequest)  {
+    private final PasswordEncoder passwordEncoder;
+    public AppUserDtoResponse createUser(AppUserDtoRequest appUserDtoRequest)  {
         validateEmailDoesNotExist(appUserDtoRequest.getEmail());
         AppUser appUser = appUserMapper.dtoToEntity(appUserDtoRequest);
         Long roleId = appUserDtoRequest.getRoleId();
         Role role = roleRepo.findById(roleId).
                 orElseThrow(() ->  new RuntimeException("role not found") );
         appUser.setRole(role);
-
+        appUser.setPassword(passwordEncoder.encode(appUserDtoRequest.getPassword()));
 
         AppUser savedUser = appUserRepo.save(appUser);
         AppUserDtoResponse appUserDtoResponse = appUserMapper.entityToResponse(savedUser);

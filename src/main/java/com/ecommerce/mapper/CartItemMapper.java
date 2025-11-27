@@ -14,6 +14,7 @@ public interface CartItemMapper {
     @Mapping(source = "createdAt", target = "createdAt")  // explicitly map createdAt
     CartItemDto toDto(CartItem entity);
 
+
     CartItem toEntity(CartItemDto dto);
 
     List<CartItemDto> toDtoList(List<CartItem> entities);

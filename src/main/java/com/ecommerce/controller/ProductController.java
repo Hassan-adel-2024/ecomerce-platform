@@ -1,5 +1,6 @@
 package com.ecommerce.controller;
 
+import com.ecommerce.annotation.RateLimit;
 import com.ecommerce.dto.ProductRequestDto;
 import com.ecommerce.dto.ProductResponseDto;
 import com.ecommerce.dto.ProductUpdateDto;
@@ -35,6 +36,7 @@ public class ProductController {
         return ResponseEntity.ok(productService.getAllProducts());
     }
     @GetMapping("/{productId}")
+    @RateLimit(capacity = 4, windowInSeconds = 60)
     public ResponseEntity<ProductResponseDto> getProductById(@PathVariable Long productId) {
         ProductResponseDto productResponseDto = productService.getProductById(productId);
         return ResponseEntity.ok(productResponseDto);

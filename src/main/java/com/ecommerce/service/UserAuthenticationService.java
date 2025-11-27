@@ -21,7 +21,7 @@ public class UserAuthenticationService {
     public LoginResponseDto login(LoginRequestDto loginRequest) {
         var authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsername(),
+                        loginRequest.getEmail(),
                         loginRequest.getPassword()
                 )
         );

@@ -42,5 +42,28 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST) // 400 Bad Request
                 .body(Map.of("error", ex.getMessage()));
     }
+    @ExceptionHandler(CartNotFoundException.class)
+    public ResponseEntity<?> handleCartNotFound(CartNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND) // 404 Not Found
+                .body(Map.of("error", ex.getMessage()));
+    }
+
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<?> handleOrderNotFound(OrderNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("error", ex.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidOrderStatusException.class)
+    public ResponseEntity<?> handleInvalidOrderStatus(InvalidOrderStatusException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("error", ex.getMessage()));
+    }
+
+    @ExceptionHandler(RateLimitExceededException.class)
+    public ResponseEntity<?> handleRateLimitExceeded(RateLimitExceededException ex) {
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS) // 429 Too Many Requests
+                .body(Map.of("error", ex.getMessage()));
+    }
 
 }

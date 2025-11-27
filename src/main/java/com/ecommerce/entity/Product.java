@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Table(name = "product")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,8 +31,8 @@ public class Product {
     private boolean deleted = false;
     // relation
     @ManyToOne
-    @JoinColumn(name = "category_id",referencedColumnName = "categoryId")
-    private Category category;
+    @JoinColumn(name = "subcategory_id", referencedColumnName = "subCategoryId")
+    private SubCategory subCategory;
     @OneToMany(mappedBy = "product" , fetch = FetchType.LAZY)
     private List<CartItem> cartItems;
 

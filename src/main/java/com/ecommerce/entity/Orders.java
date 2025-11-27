@@ -10,10 +10,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Table(name = "orders")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +25,7 @@ public class Orders {
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "userId")
     private AppUser user;
-    @OneToMany(mappedBy = "orderItemId")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItems> orderItems;
 
     @ManyToOne(fetch = FetchType.LAZY)

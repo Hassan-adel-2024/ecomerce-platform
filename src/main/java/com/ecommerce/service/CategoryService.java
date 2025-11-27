@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -31,5 +34,12 @@ public class CategoryService {
         categoryMapper.updateEntityFromDto(categoryUpdateDto, existingCategory);
         Category updatedCategory = categoryRepo.save(existingCategory);
         return categoryMapper.entityToDto(updatedCategory);
+    }
+    
+    public List<CategoryDto> getAllCategories() {
+        List<Category> categories = categoryRepo.findAll();
+        return categories.stream()
+                .map(categoryMapper::entityToDto)
+                .collect(Collectors.toList());
     }
 }

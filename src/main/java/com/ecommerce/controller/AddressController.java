@@ -26,4 +26,11 @@ public class AddressController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(addressList);
     }
 
+    @GetMapping
+    public ResponseEntity<?> getCurrentUserAddresses() {
+        Long userId = com.ecommerce.utility.SecurityUtils.getAuthenticatedUserId();
+        List<Address> addressList = addressService.getAllAddressesByUserId(userId);
+        return ResponseEntity.ok(addressList);
+    }
+
 }

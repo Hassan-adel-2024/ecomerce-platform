@@ -1,6 +1,5 @@
 package com.ecommerce.mapper;
 
-import com.ecommerce.dto.CategoryDto;
 import com.ecommerce.dto.ProductRequestDto;
 import com.ecommerce.dto.ProductResponseDto;
 import com.ecommerce.dto.ProductUpdateDto;
@@ -19,7 +18,7 @@ public interface ProductMapper {
     @Mapping(target = "createdAt", ignore = true)  // Will be set in @PrePersist
     @Mapping(target = "updatedAt", ignore = true)  // Will be set in @PreUpdate
     @Mapping(target = "cartItems", ignore = true)  // Not part of DTO
-    @Mapping(target = "category", ignore = true)   // You'll handle this in service
+    @Mapping(target = "subCategory", ignore = true)   // You'll handle this in service
     Product toEntity(ProductRequestDto dto);
     ProductResponseDto toResponseDto(Product product);
 
@@ -27,7 +26,7 @@ public interface ProductMapper {
     @Mapping(target = "createdAt", ignore = true)  // Will be set in @PrePersist
     @Mapping(target = "updatedAt", ignore = true)  // Will be set in @PreUpdate
     @Mapping(target = "cartItems", ignore = true)  // Not part of DTO
-    @Mapping(target = "category", ignore = true)   // You'll handle this in service
+    @Mapping(target = "subCategory", ignore = true)   // You'll handle this in service
     Product updateEntityFromDto(ProductUpdateDto dto, @MappingTarget Product entity);
 
 

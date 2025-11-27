@@ -7,9 +7,11 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "cart")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,7 +28,7 @@ public class Cart {
     @JoinColumn(name = "customer_id", referencedColumnName = "userId")
     private AppUser user;
     @OneToMany(cascade = CascadeType.ALL , orphanRemoval = true , mappedBy = "cart",fetch = FetchType.EAGER)
-    private List<CartItem> cartItems;
+    private List<CartItem> cartItems = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {
@@ -37,5 +39,18 @@ public class Cart {
     @PreUpdate
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
+    }
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "cartId=" + cartId +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", totalPrice=" + totalPrice +
+                ", active=" + active +
+                ", user=" + (user != null ? user.getUserId() : null) +
+                ", cartItemsCount=" + (cartItems != null ? cartItems.size() : 0) +
+                '}';
     }
 }

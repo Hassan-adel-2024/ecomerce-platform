@@ -3,12 +3,12 @@ package com.ecommerce.service;
 import com.ecommerce.dto.ProductRequestDto;
 import com.ecommerce.dto.ProductResponseDto;
 import com.ecommerce.dto.ProductUpdateDto;
-import com.ecommerce.entity.Category;
 import com.ecommerce.entity.Product;
+import com.ecommerce.entity.SubCategory;
 import com.ecommerce.exceptions.ProductNotFoundException;
 import com.ecommerce.mapper.ProductMapper;
-import com.ecommerce.repository.CategoryRepo;
 import com.ecommerce.repository.ProductRepo;
+import com.ecommerce.repository.SubCategoryRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,14 +21,14 @@ import java.util.stream.Collectors;
 @Transactional
 public class ProductService {
     private final ProductRepo productRepo;
-    private final CategoryRepo categoryRepo;
+    private final SubCategoryRepo subCategoryRepo;
     private final ProductMapper productMapper;
     public ProductResponseDto addProduct(ProductRequestDto productRequestDto) {
-        Long categoryId = productRequestDto.getCategoryId();
-        Category category = categoryRepo.findById(categoryId)
-                .orElseThrow(() -> new RuntimeException("Category not found"));
+        Long subCategoryId = productRequestDto.getSubCategoryId();
+        SubCategory subCategory = subCategoryRepo.findById(subCategoryId)
+                .orElseThrow(() -> new RuntimeException("SubCategory not found"));
         Product product = productMapper.toEntity(productRequestDto);
-        product.setCategory(category);
+        product.setSubCategory(subCategory);
         Product savedProduct = productRepo.save(product);
         return productMapper.toResponseDto(savedProduct);
     }
@@ -37,6 +37,16 @@ public class ProductService {
         Long productId = productUpdateDto.getProductId();
         Product existingProduct = productRepo.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
+        
+        // If subcategory is being changed, validate the new subcategory exists
+        if (productUpdateDto.getSubCategoryId() != null && 
+            (existingProduct.getSubCategory() == null || 
+             !existingProduct.getSubCategory().getSubCategoryId().equals(productUpdateDto.getSubCategoryId()))) {
+            SubCategory subCategory = subCategoryRepo.findById(productUpdateDto.getSubCategoryId())
+                    .orElseThrow(() -> new RuntimeException("SubCategory not found"));
+            existingProduct.setSubCategory(subCategory);
+        }
+        
         productMapper.updateEntityFromDto(productUpdateDto, existingProduct);
         Product updatedProduct = productRepo.save(existingProduct);
         return productMapper.toResponseDto(updatedProduct);
